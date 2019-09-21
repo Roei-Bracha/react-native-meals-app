@@ -11,8 +11,8 @@ export default function App() {
   const [fontLoaded , setFontLoaded] = useState(false)
   const fetchFonts = ()=> {
     return Font.loadAsync({
-      'open-sens': require('./assets/fonts/OpenSans-Regular.ttf'),
-      'open-sens-bold':require('./assets/fonts/OpenSans-Bold.ttf')
+      'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold':require('./assets/fonts/OpenSans-Bold.ttf')
     })
   }
   if (!fontLoaded) {
