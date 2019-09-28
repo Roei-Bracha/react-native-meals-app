@@ -6,13 +6,16 @@ import MealsNavigator from './navigation/MealsNavigator'
 import { useScreens } from 'react-native-screens'
 import { createStore, combineReducers } from 'redux'
 import mealsReducer from './store/reducers/meals'
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 useScreens()
 
 const rootReducers = combineReducers({
   meals:mealsReducer
 })
-const store = createStore(rootReducers)
+
+const store = process.env.NODE_ENV !== 'production' ? createStore(rootReducers, composeWithDevTools()) : createStore(rootReducers)
 
 export default function App() {
   const [fontLoaded , setFontLoaded] = useState(false)
