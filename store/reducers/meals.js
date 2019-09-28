@@ -1,10 +1,15 @@
-import { MEALS } from "../../data/dummy-data"
-import { TOGGLE_FAVORITE } from "../actions/meals"
+import {
+    MEALS
+} from "../../data/dummy-data"
+import {
+    TOGGLE_FAVORITE,
+    SET_FILTERS
+} from "../actions/meals"
 
 const intialMeals = {
     meals: MEALS,
     filteredMeals: MEALS,
-    favoriteMeals:[]
+    favoriteMeals: []
 }
 
 const mealsReducer = (state = intialMeals, action) => {
@@ -16,15 +21,37 @@ const mealsReducer = (state = intialMeals, action) => {
                 updatedFavMeals.splice(existingIndex)
                 return ({
                     ...state,
-                    favoriteMeals:updatedFavMeals
+                    favoriteMeals: updatedFavMeals
+                })
+            } else {
+                const newFavMeals = [...state.favoriteMeals].concat(state.meals.find((meal) => meal.id === action.mealId))
+                return ({
+                    ...state,
+                    favoriteMeals: newFavMeals
                 })
             }
-            else {
-                const newFavMeals = [...state.favoriteMeals].concat(state.meals.find((meal) => meal.id === action.mealId))
-                return({...state,favoriteMeals:newFavMeals})
-            }
-        default:
-            return state
+            case SET_FILTERS:
+                const appliedFilters = action.filters;
+                const updatedFilteredMeals = state.meals.filter(meal => {
+                    if (appliedFilters.glutenFree && !meal.isGlutenFree) {
+                        return false;
+                    }
+                    if (appliedFilters.lactoseFree && !meal.isLactoseFree) {
+                        return false;
+                    }
+                    if (appliedFilters.vegetarian && !meal.isVegetarian) {
+                        return false;
+                    }
+                    if (appliedFilters.vegan && !meal.isVegan) {
+                        return false;
+                    }
+                    return true;
+                });
+                return {
+                    ...state, filteredMeals: updatedFilteredMeals
+                };
+            default:
+                return state
     }
 }
 
