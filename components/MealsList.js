@@ -10,7 +10,7 @@ const MealsList = props => {
                 duration={itemData.item.duration}
                 complexity={itemData.item.complexity}
                 affordability={itemData.item.affordability}
-                onSelectMeal={() => { props.navigation.navigate('MealDetails', { mealId: itemData.item.id }) }}
+                onSelectMeal={() => { props.navigation.navigate('MealDetails', { mealId: itemData.item.id, mealTitle:itemData.item.title }) }}
             />
         );
     };
